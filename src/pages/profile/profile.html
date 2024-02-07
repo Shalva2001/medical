@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Profile Page</title>
+		<link rel="stylesheet" href="./profile.css" />
+	</head>
+	<body bgcolor="whitesmoke">
+		<div class="userBar">
+			<h1>Hello <span class="username"></span></h1>
+			<button class="logoutBtn">Log out</button>
+		</div>
+
+		<div class="contacts">
+			<form class="contact_form">
+				<input type="email" placeholder="Email" name="email" required />
+				<input type="firstname" placeholder="First Name" name="firstname" required />
+				<input type="lastname" placeholder="Last Name" name="lastname" required />
+				<textarea placeholder="Additional Info" name="additional_info"></textarea>
+
+				<p class="errorMessage"></p>
+				<input type="submit" value="Save Contact" />
+			</form>
+
+			<ul class="contactList"></ul>
+		</div>
+
+		<script type="module">
+			import { signOut } from 'firebase/auth';
+			import { auth, db } from '/src/firebase.js';
+			import { collection, addDoc, getDocs, getDoc } from 'firebase/firestore';
+			import { fillContactsList } from '/src/helpers.js';
+
+			const userData = JSON.parse(localStorage.getItem('user'));
+
+			window.addEventListener('DOMContentLoaded', () => {
+				if (!userData) {
+					location.pathname = '/src/pages/auth/login.html';
+				}
+				document.querySelector('.username').innerHTML += userData?.user?.displayName || '';
+			});
+
+			const logoutBtn = document.querySelector('.logoutBtn');
+
+			logoutBtn.addEventListener('click', () => {
+				signOut(auth)
+					.then(() => {
+						localStorage.removeItem('user');
+						location.pathname = '/src/pages/auth/login.html';
+					})
+					.catch((error) => console.log(error.message));
+			});
+
+			// Save Contacts
+			const contactForm = document.querySelector('.contact_form');
+			const errorMessageParagraph = document.querySelector('.errorMessage');
+			const contactList = document.querySelector('.contactList');
+
+			contactForm.addEventListener('submit', async (event) => {
+				errorMessageParagraph.textContent = '';
+
+				event.preventDefault();
+
+				const email = contactForm.email.value;
+				const firstname = contactForm.firstname.value;
+				const lastname = contactForm.lastname.value;
+				const additional_info = contactForm.additional_info.value;
+
+				if (!email || !firstname || !lastname) {
+					return;
+				}
+
+				try {
+					const docRef = await addDoc(collection(db, 'contacts'), {
+						email,
+						firstname,
+						lastname,
+						additional_info,
+					});
+					const contact = await getDoc(docRef);
+					fillContactsList(contactList, contact);
+					contactForm.reset();
+				} catch (error) {
+					errorMessageParagraph.textContent = error.message;
+				}
+			});
+
+			// List Contacts
+
+			const listContacts = async () => {
+				const contacts = await getDocs(collection(db, 'contacts'));
+				contacts.forEach((contact) => {
+					fillContactsList(contactList, contact);
+				});
+			};
+			listContacts();
+		</script>
+	</body>
+</html>

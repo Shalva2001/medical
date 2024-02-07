@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./pages.css" />
+		<title>Login</title>
+	</head>
+	<body>
+		<form class="login_form">
+			<input type="email" placeholder="Email" name="email" />
+			<input type="password" placeholder="Password" name="password" />
+			<p class="errorMessage"></p>
+			<input type="submit" value="Login" />
+			<div style="display: flex; justify-content: space-between">
+				Do not have account?
+				<a href="./register.html">Register</a>
+			</div>
+		</form>
+
+		<script type="module">
+			import { signInWithEmailAndPassword } from 'firebase/auth';
+			import { auth } from '/src/firebase.js';
+
+			const form = document.querySelector('.login_form');
+			const errorMessageParagraph = document.querySelector('.errorMessage');
+
+			form.addEventListener('submit', (event) => {
+				errorMessageParagraph.textContent = '';
+				event.preventDefault();
+
+				const email = form.email.value;
+				const password = form.password.value;
+
+				if (!email || !password) {
+					return;
+				}
+
+				signInWithEmailAndPassword(auth, email, password)
+					.then((creds) => {
+						localStorage.setItem('user', JSON.stringify(creds));
+						location.pathname = '/src/pages/profile/profile.html';
+					})
+					.catch((error) => (errorMessageParagraph.textContent = error.message));
+			});
+		</script>
+	</body>
+</html>

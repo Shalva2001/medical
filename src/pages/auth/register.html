@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./pages.css" />
+		<title>Registration</title>
+	</head>
+	<body>
+		<form class="registration_form">
+			<input type="email" placeholder="Email" name="email" required />
+			<input type="text" placeholder="Username" name="username" required />
+			<input type="password" placeholder="Password" name="password" required />
+
+			<input type="submit" value="Register" />
+		</form>
+
+		<script type="module">
+			import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+			import { auth } from '/src/firebase.js';
+
+			const registrationForm = document.querySelector('.registration_form');
+
+			registrationForm.addEventListener('submit', (event) => {
+				event.preventDefault();
+				const form = event.target;
+
+				const email = form.email.value;
+				const password = form.password.value;
+				const username = form.username.value;
+
+				if (!email || !password) {
+					return;
+				}
+
+				const register = async () => {
+					try {
+						const creds = await createUserWithEmailAndPassword(auth, email, password);
+						const user = creds.user;
+
+						if (username) {
+							await updateProfile(auth.currentUser, {
+								displayName: username,
+							});
+						}
+						localStorage.setItem('user', JSON.stringify(user));
+						location.pathname = '/src/pages/profile/profile.html';
+					} catch (error) {
+						console.log(error.message);
+					}
+				};
+				register();
+			});
+		</script>
+	</body>
+</html>
