@@ -1,16 +1,20 @@
-export const fillContactsList = (parentNode, contact) => {
-	const name = `${contact.data().firstname} ${contact.data().lastname}`;
+export const fillBookingList = (parentNode, booking) => {
+	const data = {
+		fullName: `${booking.get('firstname')} ${booking.get('lastname')}`,
+		email: booking.get('email'),
+		message: booking.get('message'),
+	};
 
 	const li = document.createElement('li');
 
 	const nameP = document.createElement('p');
-	nameP.innerHTML = `<b>Name:</b> ${name}`;
+	nameP.innerHTML = `<b>სახელი:</b> ${data.fullName}`;
 
 	const emailP = document.createElement('p');
-	emailP.innerHTML = `<b>Email:</b> ${contact.data().email}`;
+	emailP.innerHTML = `<b>იმეილი:</b> ${data.email}`;
 
 	const additionalInfoP = document.createElement('p');
-	additionalInfoP.innerHTML = `<b>About:</b> ${contact.data().additional_info || ''}`;
+	additionalInfoP.innerHTML = `<b>შეტყობინება:</b> ${data.message || ''}`;
 
 	li.appendChild(nameP);
 	li.appendChild(emailP);

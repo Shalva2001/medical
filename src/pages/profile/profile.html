@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Profile Page</title>
 		<link rel="stylesheet" href="./profile.css" />
+		<script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
 	</head>
 	<body bgcolor="whitesmoke">
 		<div class="userBar">
@@ -20,17 +21,21 @@
 				<textarea placeholder="Additional Info" name="additional_info"></textarea>
 
 				<p class="errorMessage"></p>
-				<input type="submit" value="Save Contact" />
+				<input type="submit" value="Request Booking" />
 			</form>
 
-			<ul class="contactList"></ul>
+			<ul class="bookingList"></ul>
 		</div>
 
 		<script type="module">
 			import { signOut } from 'firebase/auth';
-			import { auth, db } from '/src/firebase.js';
-			import { collection, addDoc, getDocs, getDoc } from 'firebase/firestore';
-			import { fillContactsList } from '/src/helpers.js';
+			import { auth } from '/src/firebase.js';
+			import { fillBookingList } from '/src/helpers.js';
+
+			Parse.initialize('BnZSTW1CBSq3PTYgP9h6sVXJd1eovcu23ZdHVhI3', 'SEwVK2STF0RanmjZY0OPLEZQthouU9EW03AlgsHS');
+			Parse.serverURL = 'https://parseapi.back4app.com/';
+
+			const Booking = new Parse.Object.extend('Booking');
 
 			const userData = JSON.parse(localStorage.getItem('user'));
 
@@ -55,7 +60,7 @@
 			// Save Contacts
 			const contactForm = document.querySelector('.contact_form');
 			const errorMessageParagraph = document.querySelector('.errorMessage');
-			const contactList = document.querySelector('.contactList');
+			const bookingList = document.querySelector('.bookingList');
 
 			contactForm.addEventListener('submit', async (event) => {
 				errorMessageParagraph.textContent = '';
@@ -72,29 +77,33 @@
 				}
 
 				try {
-					const docRef = await addDoc(collection(db, 'contacts'), {
-						email,
-						firstname,
-						lastname,
-						additional_info,
-					});
-					const contact = await getDoc(docRef);
-					fillContactsList(contactList, contact);
+					const booking = new Booking();
+					booking.set('email', email);
+					booking.set('firstname', firstname);
+					booking.set('lastname', lastname);
+					booking.set('message', additional_info);
+
+					const savedBooking = await booking.save();
+					fillBookingList(bookingList, savedBooking);
 					contactForm.reset();
 				} catch (error) {
 					errorMessageParagraph.textContent = error.message;
 				}
 			});
 
-			// List Contacts
+			// List Bookings
 
-			const listContacts = async () => {
-				const contacts = await getDocs(collection(db, 'contacts'));
-				contacts.forEach((contact) => {
-					fillContactsList(contactList, contact);
-				});
+			const listBookings = async () => {
+				const loggedInUserEmail = userData.email;
+
+				const q = new Parse.Query(Booking);
+				const bookings = (await q.equalTo('email', loggedInUserEmail)) || [];
+
+				if (bookings && bookings?.length > 0) {
+					bookings.forEach((booking) => fillBookingList(bookingList, booking));
+				}
 			};
-			listContacts();
+			listBookings();
 		</script>
 	</body>
 </html>
