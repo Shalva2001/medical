@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 body {
+	background: url('/public/images/bg.jpg');
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -17,6 +19,9 @@ form {
 }
 input {
 	font-size: 24px;
+	border-radius: 5px;
+	border-color: black;
+	border-width: 2px;
 }
 .errorMessage {
 	color: red;
@@ -24,4 +29,80 @@ input {
 button {
 	padding: 5px 20px;
 	font-size: 20px;
+}
+.login_form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  text-align: center;
+  padding: 60px 32px;
+  width: 400px;
+  transform: translate(-50%,-50%);
+  background: rgba(255,255,255,0.04);
+  box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+}
+.login_form header{
+	color: white;
+	font-size: 33px;
+	font-weight: 600;
+	margin: 0 0 35px 0;
+	font-family: 'Montserrat',sans-serif;
+}
+.login_form .btn a {
+	background: #5eaeb5;
+	color: white;
+	border: 1px solid;
+	padding: 10px 10px;
+	border-radius: 30px;
+	font-size: 17px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 8px;
+
+}
+.login_form .btn a:hover {
+	border: 1.5px solid black;
+	color: black;
+	background: #1ba0ab;
+	transition: 0.4s;
+}
+.login_form input[type="submit"]:hover{
+	background: white;
+	width: 100px;
+} 
+.show{
+	position: absolute;
+	right: 20px;
+	font-size: 1px;
+	font-weight: 700;
+	color: #222;
+	display: none;
+	cursor: pointer;
+	font-family: 'Montserrat',sans-serif;
+}
+
+.registration_form{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 999;
+	text-align: center;
+	padding: 50px 32px;
+	width: 400px;
+	transform: translate(-50%,-50%);
+	background: rgba(255,255,255,0.04);
+	box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+  }
+  .registration_form header{
+	  color: white;
+	  font-size: 30px;
+	  font-weight: 600;
+	  margin: 0 0 20px 0;
+	  font-family: 'Montserrat',sans-serif;
+  }
+  .button input[type="submit"]:hover{
+	background: white;
+	width: 160px;
 }

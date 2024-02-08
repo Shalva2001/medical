@@ -4,20 +4,35 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="./pages.css" />
-		<title>Login</title>
+		<link rel="shortcut icon" type="image" href="/public/images/logo.ico">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
+		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+		<title>შესვლა</title>
 	</head>
 	<body>
 		<form class="login_form">
-			<input type="email" placeholder="Email" name="email" />
-			<input type="password" placeholder="Password" name="password" />
-			<p class="errorMessage"></p>
-			<input type="submit" value="Login" />
-			<div style="display: flex; justify-content: space-between">
-				Do not have account?
-				<a href="./register.html">Register</a>
+			<header>ავტორიზაცია</header>
+			<div class="field">
+				<span class="fa fa-user"></span>
+				<input type="email" placeholder="ელფოსტა" name="email" required >
 			</div>
+			<div class="field space">
+				<span class="fa fa-lock"></span>
+				<input type="password" placeholder="პაროლი" name="password" required >
+			</div>
+			<p class="errorMessage"></p>
+			<div class="field">
+				<input type="submit" value="შესვლა" >
+			</div>
+			<div style="display: flex; justify-content: space-between; font-size: 17px;">
+				არ გაქვს ანგარიში?
+				<a href="./register.html">რეგისტრაცია</a>
+			</div>
+			<div class="btn">
+				<a href="/index.html" > მთავარი გვერდი <i class="fa-solid fa-arrow-right"></i></a>
+			</div>
+	
 		</form>
-
 		<script type="module">
 			import { signInWithEmailAndPassword } from 'firebase/auth';
 			import { auth } from '/src/firebase.js';

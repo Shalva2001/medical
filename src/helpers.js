@@ -11,7 +11,7 @@ export const fillBookingList = (parentNode, booking) => {
 	nameP.innerHTML = `<b>სახელი:</b> ${data.fullName}`;
 
 	const emailP = document.createElement('p');
-	emailP.innerHTML = `<b>იმეილი:</b> ${data.email}`;
+	emailP.innerHTML = `<b>ელფოსტა:</b> ${data.email}`;
 
 	const additionalInfoP = document.createElement('p');
 	additionalInfoP.innerHTML = `<b>შეტყობინება:</b> ${data.message || ''}`;

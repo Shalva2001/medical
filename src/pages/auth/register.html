@@ -4,17 +4,30 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="./pages.css" />
-		<title>Registration</title>
+		<link rel="shortcut icon" type="image" href="/public/images/logo.ico">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+		<title>რეგისტრაცია</title>
 	</head>
 	<body>
 		<form class="registration_form">
-			<input type="email" placeholder="Email" name="email" required />
-			<input type="text" placeholder="Username" name="username" required />
-			<input type="password" placeholder="Password" name="password" required />
-
-			<input type="submit" value="Register" />
+			<header>რეგისტრაცია</header>
+			<div class="field">
+				<span class="fa fa-user"></span>
+				<input type="email" placeholder="ელფოსტა" name="email" required >
+			</div>
+			<div class="field">
+				<span class="fa fa-user"></span>
+				<input type="text" placeholder="სახელი" name="username" required >
+			</div>
+			<div class="field space">
+				<span class="fa fa-lock"></span>
+				<input type="password" placeholder="პაროლი" name="password" required >
+			</div>
+			<div class="button">
+				<input type="submit" value="რეგისტრაცია" >
+			</div>
 		</form>
-
 		<script type="module">
 			import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 			import { auth } from '/src/firebase.js';
