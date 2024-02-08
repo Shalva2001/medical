@@ -9,19 +9,19 @@
 	</head>
 	<body bgcolor="whitesmoke">
 		<div class="userBar">
-			<h1>Hello <span class="username"></span></h1>
-			<button class="logoutBtn">Log out</button>
+			<h1>გამარჯობა <span class="username"></span></h1>
+			<button class="logoutBtn">გამოსვლა</button>
 		</div>
 
 		<div class="contacts">
 			<form class="contact_form">
-				<input type="email" placeholder="Email" name="email" required />
-				<input type="firstname" placeholder="First Name" name="firstname" required />
-				<input type="lastname" placeholder="Last Name" name="lastname" required />
-				<textarea placeholder="Additional Info" name="additional_info"></textarea>
+				<input type="email" placeholder="ელფოსტა" name="email" required />
+				<input type="firstname" placeholder="სახელი" name="firstname" required />
+				<input type="lastname" placeholder="გვარი" name="lastname" required />
+				<textarea placeholder="ინფორმაცია" name="additional_info"></textarea>
 
 				<p class="errorMessage"></p>
-				<input type="submit" value="Request Booking" />
+				<input type="submit" value="თქვენი განაცხადი გაგზავნილია" />
 			</form>
 
 			<ul class="bookingList"></ul>
@@ -94,10 +94,10 @@
 			// List Bookings
 
 			const listBookings = async () => {
-				const loggedInUserEmail = userData.email;
+				const loggedInUserEmail = JSON.parse(localStorage.getItem('user')).user.email;
 
 				const q = new Parse.Query(Booking);
-				const bookings = (await q.equalTo('email', loggedInUserEmail)) || [];
+				const bookings = (await q.equalTo('email', loggedInUserEmail).find()) || [];
 
 				if (bookings && bookings?.length > 0) {
 					bookings.forEach((booking) => fillBookingList(bookingList, booking));
