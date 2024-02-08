@@ -6,6 +6,8 @@
 }
 body {
 	background: url('/public/images/bg.jpg');
+	background-size:cover;
+    background-position: center;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -39,11 +41,13 @@ button {
   padding: 60px 32px;
   width: 400px;
   transform: translate(-50%,-50%);
-  background: rgba(255,255,255,0.04);
-  box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+  background: #4644440a;
+  background-color: #ffffffb3;
+  box-shadow: -1px 4px 28px 0px #000000bf;
+  
 }
 .login_form header{
-	color: white;
+	color: #000;
 	font-size: 33px;
 	font-weight: 600;
 	margin: 0 0 35px 0;
@@ -93,10 +97,11 @@ button {
 	width: 400px;
 	transform: translate(-50%,-50%);
 	background: rgba(255,255,255,0.04);
+	background-color: #ffffffb3;
 	box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
   }
   .registration_form header{
-	  color: white;
+	  color: #000;
 	  font-size: 30px;
 	  font-weight: 600;
 	  margin: 0 0 20px 0;
